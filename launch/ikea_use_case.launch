@@ -1,0 +1,61 @@
+<launch>
+
+    <!-- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%-->
+    <!-- Parameters-->
+    <!-- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%-->
+    <rosparam>
+        state: picking_object
+    </rosparam>
+<!--    <arg name="bag" default="$(env HOME)/bagfiles/bag_file_2019-09-24-01-20-41.bag"/>-->
+<!--    <arg name="bag_start" default="0"/>-->
+
+<!--    <arg name="xacro_file" default="$(find ikea_use_case)/urdf/ur10e.urdf.xacro"/>-->
+
+<!--    <arg name="rviz_config_file" default="$(find ikea_use_case)/rviz/visualization.rviz"/>-->
+
+
+    <!-- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%-->
+    <!-- Load robot description file based on whether or not we are reading the first guess or optimized xacro file.-->
+    <!-- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%-->
+<!--        <param name="robot_description" command="$(find xacro)/xacro $(arg xacro_file)"/>-->
+
+    <!-- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%-->
+    <!-- Robot and joint state publisher for generating tfs -->
+    <!-- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%-->
+<!--    <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher"/>-->
+
+<!--    <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher">-->
+<!--        <param name="use_gui" value="true"/>-->
+<!--    </node>-->
+
+    <!-- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%-->
+    <!-- Nodes -->
+    <!-- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%-->
+    <group ns="trackers">
+        <node name="object_tracker" pkg="ikea_use_case" type="object_tracker.py"/>
+        <node name="human_tracker" pkg="ikea_use_case" type="human_tracker.py"/>
+    </group>
+
+    <node name="object_picker" pkg="ikea_use_case" type="object_picker.py"/>
+
+    <node name="human_approach" pkg="ikea_use_case" type="human_approach.py"/>
+    <node name="human_decision" pkg="ikea_use_case" type="human_decision.py"/>
+    <node name="object_placer" pkg="ikea_use_case" type="object_placer.py"/>
+
+    <!-- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%-->
+    <!-- Visualization -->
+    <!-- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%-->
+<!--    <node name="rviz" pkg="rviz" type="rviz" args="-d $(arg rviz_config_file)" required="false"/>-->
+
+    <!-- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%-->
+    <!-- Playing back bag files -->
+    <!-- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%-->
+    <!--To put together the ros bag and the robot state publisher one must use sim_time=true and &#45;&#45;clock-->
+<!--    <param name="/use_sim_time" value="true"/>-->
+<!--    &lt;!&ndash;    <node pkg="rosbag" type="play" name="rosbag_play" output="screen" args="$(arg bag) -r .2 -l /tf:=/tf_dev_null &#45;&#45;clock"/>&ndash;&gt;-->
+<!--    &lt;!&ndash;<node pkg="rosbag" type="play" name="rosbag_play" output="screen" args="$(arg bag) -r 1 -l &#45;&#45;clock"/>&ndash;&gt;-->
+<!--    <include file="$(find atlas2_bringup)/launch/playback_sensor_data.launch">-->
+<!--        <arg name="bag" value="$(arg bag)" />-->
+<!--        <arg name="bag_start" value="$(arg bag_start)" />-->
+<!--    </include>-->
+</launch>
